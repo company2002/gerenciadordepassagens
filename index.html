@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>Gerenciador de Passagens</title>    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">    <title>Gerenciador de Passagens</title>    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
@@ -559,6 +559,117 @@
         }
 
         /* Fim dos estilos do modal */
+
+        /* Media Queries */
+        @media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+        margin: 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .endereco {
+        grid-template-columns: 1fr;
+    }
+
+    .endereco .form-group:nth-child(1),
+    .endereco .form-group:nth-child(2) {
+        grid-column: 1;
+    }
+
+    .transporte-container {
+        grid-template-columns: 1fr;
+    }
+
+    .botoes-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .acoes-container {
+        flex-direction: column;
+    }
+
+    .acoes-container button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .pdf-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    .valor-total {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .botoes-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .badge {
+        width: 100%;
+        margin: 5px 0;
+    }
+
+    .pdf-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .config-button {
+        margin: 10px auto;
+    }
+
+    input[type="date"], 
+    input[type="number"], 
+    input[type="text"], 
+    select {
+        font-size: 16px; /* Evita zoom em dispositivos iOS */
+    }
+
+    .preco-input {
+        margin-bottom: 20px;
+    }
+
+    .modal-footer {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-footer button {
+        width: 100%;
+    }
+}
+
+/* Ajustes específicos para tablets */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    .botoes-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .endereco {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
     </style>
 </head>
 <body>
@@ -1269,6 +1380,23 @@
             });
         });
 
+        document.addEventListener('DOMContentLoaded', function() {
+    // Fecha o teclado virtual ao pressionar enter
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                input.blur();
+            }
+        });
+    });
+
+    // Melhora o scroll em dispositivos iOS
+    document.querySelectorAll('.pdf-table').forEach(table => {
+        table.addEventListener('touchmove', function(e) {
+            e.stopPropagation();
+        });
+    });
+});
         // Carrega os registros quando a página é aberta
         carregarRegistros();
         carregarInformacoes();
